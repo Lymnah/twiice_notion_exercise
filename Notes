@@ -1,7 +1,3 @@
- // move factory method to dedicated file
-
-
-
 // Breaks
 
 1. 12:40:19 -> 13:50:18 = 1h10 (setup qt, makefile, boost, wkv classes (pure virtual, base, children class imu/hip
@@ -11,4 +7,7 @@ Date:   Tue Jun 18 13:50:18 2024 +0200
 
     feat: implement sensor data architecture with inheritance and factory
 
-2. back at 16h16
+2. Back at 16h16
+
+3. Break at 17h13 - First data display
+
