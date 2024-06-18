@@ -34,7 +34,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         iwkv.h
         imusensor.h imusensor.cpp
         hipsensor.h hipsensor.cpp
-        todo
+        Notes
         wkvfactory.h wkvfactory.cpp
 
 

@@ -1,0 +1,11 @@
+ // move factory method to dedicated file
+
+
+
+// Breaks
+1. 12:40:19 -> 13:50:18 = 1h10 (setup qt, makefile, boost, wkv classes (pure virtual, base, children class imu/hip
+commit 1f0ee1b5b89f24c3e35ab0e495355a628f16057a (HEAD -> main, origin/main)
+Author: Charly <charly@mancel.net>
+Date:   Tue Jun 18 13:50:18 2024 +0200
+
+    feat: implement sensor data architecture with inheritance and factory
