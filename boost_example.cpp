@@ -1,7 +1,3 @@
-#include "mainwindow.h"
-
-#include <QApplication>
-
 #include <boost/math/interpolators/cardinal_cubic_b_spline.hpp>
 #include <boost/math/tools/roots.hpp>
 
