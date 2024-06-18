@@ -1,6 +1,7 @@
 #ifndef IWKV_H
 #define IWKV_H
-
+#include <QObject>
+#include "qtmetamacros.h"
 #include <string>
 #include <vector>
 
@@ -8,8 +9,13 @@
  * @brief The IWKV interface defines the required functionalities for sensor data handling classes.
  * This includes data generation, retrieval, and setting of sensor attributes.
  */
-class IWKV
+class IWKV : public QObject
 {
+    Q_OBJECT
+
+signals:
+    void sensorDataReady(const IWKV &wkv);
+
 public:
     virtual ~IWKV() {}
 

@@ -1,5 +1,4 @@
 #include <QApplication>
-#include "boost_example.h"
 #include "wkvfactory.h"
 
 #include "mainwindow.h"
@@ -13,6 +12,12 @@ int main(int argc, char *argv[])
     // Create sensors using the factory method
     auto hip_angle_sensor = WKVFactory::createSensor("Hip");
     auto imu_sensor = WKVFactory::createSensor("IMU");
+
+    QObject::connect(hip_angle_sensor.get(), &IWKV::sensorDataReady, &w, &MainWindow::updateUI);
+    QObject::connect(imu_sensor.get(), &IWKV::sensorDataReady, &w, &MainWindow::updateUI);
+
+    hip_angle_sensor->generateData(1000, 0.02, 20);
+    imu_sensor->generateData(400, 0.03, 20);
 
     // Ensure sensors were created successfully
     if (!hip_angle_sensor || !imu_sensor) {

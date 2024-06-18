@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "iwkv.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,5 +20,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QTabWidget *tabWidget;
+
+public slots:
+    void updateUI(const IWKV &wkv);
 };
 #endif // MAINWINDOW_H
