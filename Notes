@@ -1,11 +1,16 @@
+// Todos
+- Move noise value as function parameter
+std::normal_distribution<double> noise_distribution(0.0, 0.001); // Gaussian noise
+- check how the jitter affects the spline in     boost::math::interpolators::cardinal_cubic_b_spline<double>
+spline(data.begin(),
+       data.end(),
+       time_seconds.front(),
+       (time_seconds.back() - time_seconds.front()) / (time_seconds.size() - 1));
+-
+
 // Breaks
 
 1. 12:40:19 -> 13:50:18 = 1h10 (setup qt, makefile, boost, wkv classes (pure virtual, base, children class imu/hip
-commit 1f0ee1b5b89f24c3e35ab0e495355a628f16057a (HEAD -> main, origin/main)
-Author: Charly <charly@mancel.net>
-Date:   Tue Jun 18 13:50:18 2024 +0200
-
-    feat: implement sensor data architecture with inheritance and factory
 
 2. Back at 16h16
 
@@ -13,5 +18,8 @@ Date:   Tue Jun 18 13:50:18 2024 +0200
 
 total time spent 2h 07min
 
-
 4. Back next day, 13h
+end 14h55. resampling function
+
+total = ~4h
+
