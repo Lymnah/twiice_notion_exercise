@@ -42,8 +42,19 @@ int main(int argc, char *argv[])
 
     SensorDataProcessor processor;
 
-    processor.resampleData(hip_angle_sensor.get(), hip_angle_resampled_sensor.get(), 100, 2.7, 4.8);
-    processor.resampleData(imu_sensor.get(), imu_resampled_sensor.get(), 100, 2.7, 4.8);
+    // Window
+    constexpr auto start_time_s = 2.7, end_time_s = 4.8;
+
+    processor.resampleData(hip_angle_sensor.get(),
+                           hip_angle_resampled_sensor.get(),
+                           100,
+                           start_time_s,
+                           end_time_s);
+    processor.resampleData(imu_sensor.get(),
+                           imu_resampled_sensor.get(),
+                           100,
+                           start_time_s,
+                           end_time_s);
 
     // Finding peaks
     QObject::connect(&processor,
@@ -51,7 +62,43 @@ int main(int argc, char *argv[])
                      &w,
                      &MainWindow::updateUIWithPeaks);
 
-    const auto hip_peaks_window = processor.findPeaks(hip_angle_resampled_sensor.get(), 2.7, 4.8);
+    const auto hip_peaks_window = processor.findPeaks(hip_angle_resampled_sensor.get(),
+                                                      start_time_s,
+                                                      end_time_s);
+
+    // Smooth signal before velocity and acceleration calculation
+
+    auto imu_resampled_smoothed_sensor = WKVFactory::createSensor("IMU",
+                                                                  "3-axis-IMU-smoothed-resampled");
+    // Ensure sensors were created successfully
+    if (!imu_resampled_smoothed_sensor) {
+        std::cerr << "Failed to create sensor." << std::endl;
+        return -1; // Exit if sensors weren't created
+    }
+    QObject::connect(imu_resampled_smoothed_sensor.get(),
+                     &IWKV::sensorDataReady,
+                     &w,
+                     &MainWindow::updateUI);
+
+    // Copy data from non smoothed imu sensor to smoothed imu sensor
+    imu_resampled_smoothed_sensor->copyFrom(*imu_resampled_sensor);
+
+    processor.applyGaussianSmoothing(*imu_resampled_smoothed_sensor, 19, 3);
+
+    std::vector<double> velocities_hip, velocities_imu;
+    std::vector<double> accelerations_hip, accelerations_imu;
+
+    processor.calculateVelocityAndAcceleration(*hip_angle_resampled_sensor,
+                                               start_time_s,
+                                               end_time_s,
+                                               velocities_hip,
+                                               accelerations_hip);
+
+    processor.calculateVelocityAndAcceleration(*imu_resampled_sensor,
+                                               start_time_s,
+                                               end_time_s,
+                                               velocities_imu,
+                                               accelerations_imu);
 
     w.show();
     return a.exec();

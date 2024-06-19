@@ -24,6 +24,11 @@ std::string WKV::getName() const
     return name_;
 }
 
+int WKV::getFrequency() const
+{
+    return frequency_;
+}
+
 /**
  * @brief Get the unit of measurement of the data series.
  * 
@@ -106,4 +111,20 @@ const std::vector<uint64_t> &WKV::getTimestampsUs() const
 const std::vector<double> &WKV::getData() const
 {
     return data_;
+}
+
+void WKV::setData(const std::vector<double> &data)
+{
+    this->data_ = data;
+}
+
+void WKV::copyFrom(const IWKV &other)
+{
+    // this->name_ = other.getName(); // do not copy the name as it is constructed with it.
+    this->unit_ = other.getUnit();
+    this->frequency_ = other.getFrequency();
+    this->timestamps_us_ = other.getTimestampsUs();
+    this->data_ = other.getData();
+    this->start_time_us_ = other.getStartTimeUs();
+    emit sensorDataReady(*this);
 }

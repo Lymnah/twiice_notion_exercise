@@ -22,32 +22,52 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateUI(const IWKV &wkv)
 {
-    QChart *chart = new QChart();
-    chart->setTitle(QString::fromStdString(wkv.getName()));
+    QString sensorId = QString::fromStdString(wkv.getName());
+    QChartView *chartView = tabWidget->findChild<QChartView *>(sensorId);
 
-    QLineSeries *series = new QLineSeries();
-    for (size_t i = 0; i < wkv.getTimestampsUs().size(); ++i) {
-        series->append((wkv.getTimestampsUs()[i] - wkv.getStartTimeUs()) / 1e6, wkv.getData()[i]);
+    if (!chartView) {
+        // If the tab does not exist, create a new chart
+        QChart *chart = new QChart();
+        chart->setTitle(sensorId);
+
+        QLineSeries *series = new QLineSeries();
+        for (size_t i = 0; i < wkv.getTimestampsUs().size(); ++i) {
+            series->append((wkv.getTimestampsUs()[i] - wkv.getStartTimeUs()) / 1e6,
+                           wkv.getData()[i]);
+        }
+
+        chart->addSeries(series);
+
+        QValueAxis *axisX = new QValueAxis;
+        axisX->setTitleText("Time (s)");
+        axisX->setTickCount(10);
+        chart->addAxis(axisX, Qt::AlignBottom);
+        series->attachAxis(axisX);
+
+        QValueAxis *axisY = new QValueAxis;
+        axisY->setTitleText("Value");
+        chart->addAxis(axisY, Qt::AlignLeft);
+        series->attachAxis(axisY);
+
+        chartView = new QChartView(chart);
+        chartView->setRenderHint(QPainter::Antialiasing);
+        chartView->setObjectName(sensorId);
+        tabWidget->addTab(chartView, sensorId);
+    } else {
+        // If the tab exists, update the existing chart
+        QChart *chart = chartView->chart();
+        chart->removeAllSeries();
+
+        QLineSeries *series = new QLineSeries();
+        for (size_t i = 0; i < wkv.getTimestampsUs().size(); ++i) {
+            series->append((wkv.getTimestampsUs()[i] - wkv.getStartTimeUs()) / 1e6,
+                           wkv.getData()[i]);
+        }
+
+        chart->addSeries(series);
+        series->attachAxis(chart->axes(Qt::Horizontal).first());
+        series->attachAxis(chart->axes(Qt::Vertical).first());
     }
-
-    chart->addSeries(series);
-
-    QValueAxis *axisX = new QValueAxis;
-    axisX->setTitleText("Time (s)");
-    axisX->setTickCount(10);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
-
-    QValueAxis *axisY = new QValueAxis;
-    axisY->setTitleText("Value");
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
-
-    QChartView *chartView = new QChartView(chart);
-    chartView->setRenderHint(QPainter::Antialiasing);
-    chartView->setObjectName(
-        QString::fromStdString(wkv.getName())); // Set object name to sensor name
-    tabWidget->addTab(chartView, QString::fromStdString(wkv.getName()));
 }
 
 void MainWindow::updateUIWithPeaks(const IWKV &wkv,

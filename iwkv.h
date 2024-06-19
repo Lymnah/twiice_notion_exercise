@@ -40,6 +40,13 @@ public:
     virtual std::string getName() const = 0;
 
     /**
+     * @brief Get the frequency of the sensor.
+     * 
+     * @return int the frequency in Hertz.
+     */
+    virtual int getFrequency() const = 0;
+
+    /**
      * @brief Get the unit of measurement for the sensor data.
      * 
      * @return std::string The unit of measurement.
@@ -95,6 +102,16 @@ public:
      * @return const std::vector<double>& A constant reference to the vector of data values.
      */
     virtual const std::vector<double> &getData() const = 0;
+
+    /**
+     * @brief Set the data series values.
+     */
+    virtual void setData(const std::vector<double> &data) = 0;
+
+    /**
+     * @brief Copy data from one iwkv instance to another. Was force to do so as copy constructor are deleted in Q_Object classes...
+     */
+    virtual void copyFrom(const IWKV &other) = 0;
 };
 
 #endif // IWKV_H

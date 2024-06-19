@@ -16,6 +16,12 @@ public:
                       double end_time_s);
 
     std::vector<uint64_t> findPeaks(const IWKV *sensor, double start_time_s, double end_time_s);
+    void calculateVelocityAndAcceleration(const IWKV &sensor,
+                                          double start_time_s,
+                                          double end_time_s,
+                                          std::vector<double> &velocities,
+                                          std::vector<double> &accelerations);
+    void applyGaussianSmoothing(IWKV &sensor, int kernel_size, double sigma);
 
 signals:
     void peaksDataReady(const IWKV &sensor,
