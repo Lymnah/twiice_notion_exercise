@@ -33,7 +33,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         iwkv.h
         imusensor.h imusensor.cpp
         hipsensor.h hipsensor.cpp
-        Notes
+        Notes.txt
         wkvfactory.h wkvfactory.cpp
         no_commit
         sensordataprocessor.h sensordataprocessor.cpp

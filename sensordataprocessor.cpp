@@ -52,3 +52,32 @@ void SensorDataProcessor::resampleData(IWKV *base_sensor,
     resampled_sensor->setStartTimeUs(base_sensor->getStartTimeUs());
     emit resampled_sensor->sensorDataReady(*resampled_sensor);
 }
+
+std::vector<uint64_t> SensorDataProcessor::findPeaks(const IWKV *sensor,
+                                                     double start_time_s,
+                                                     double end_time_s)
+{
+    const std::vector<uint64_t> &timestamps = sensor->getTimestampsUs();
+    const std::vector<double> &data = sensor->getData();
+
+    std::vector<uint64_t> peakTimestamps;
+
+    uint64_t start_time_us = static_cast<uint64_t>(start_time_s * 1e6) + sensor->getStartTimeUs();
+    uint64_t end_time_us = static_cast<uint64_t>(end_time_s * 1e6) + sensor->getStartTimeUs();
+
+    // Ensure we have at least three points to compare (previous, current, next)
+    if (data.size() < 3)
+        return peakTimestamps;
+
+    for (size_t i = 1; i < data.size() - 1; ++i) {
+        if (timestamps[i] >= start_time_us && timestamps[i] <= end_time_us) {
+            if (data[i] > data[i - 1] && data[i] > data[i + 1]) {
+                peakTimestamps.push_back(timestamps[i]);
+            }
+        }
+    }
+    emit peaksDataReady(*sensor,
+                        peakTimestamps,
+                        sensor->getName()); // Assuming getName returns QString
+    return peakTimestamps;
+}

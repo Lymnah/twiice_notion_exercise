@@ -24,5 +24,8 @@ private:
 
 public slots:
     void updateUI(const IWKV &wkv);
+    void updateUIWithPeaks(const IWKV &wkv,
+                           const std::vector<uint64_t> &peaks,
+                           const std::string &sensorId);
 };
 #endif // MAINWINDOW_H

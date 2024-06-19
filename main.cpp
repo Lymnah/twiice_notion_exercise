@@ -40,12 +40,18 @@ int main(int argc, char *argv[])
                      &MainWindow::updateUI);
     QObject::connect(imu_resampled_sensor.get(), &IWKV::sensorDataReady, &w, &MainWindow::updateUI);
 
-    SensorDataProcessor::resampleData(hip_angle_sensor.get(),
-                                      hip_angle_resampled_sensor.get(),
-                                      100,
-                                      2.7,
-                                      4.8);
-    SensorDataProcessor::resampleData(imu_sensor.get(), imu_resampled_sensor.get(), 100, 2.7, 4.8);
+    SensorDataProcessor processor;
+
+    processor.resampleData(hip_angle_sensor.get(), hip_angle_resampled_sensor.get(), 100, 2.7, 4.8);
+    processor.resampleData(imu_sensor.get(), imu_resampled_sensor.get(), 100, 2.7, 4.8);
+
+    // Finding peaks
+    QObject::connect(&processor,
+                     &SensorDataProcessor::peaksDataReady,
+                     &w,
+                     &MainWindow::updateUIWithPeaks);
+
+    const auto hip_peaks_window = processor.findPeaks(hip_angle_resampled_sensor.get(), 2.7, 4.8);
 
     w.show();
     return a.exec();
