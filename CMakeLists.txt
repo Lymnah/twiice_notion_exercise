@@ -37,6 +37,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         wkvfactory.h wkvfactory.cpp
         no_commit
         sensordataprocessor.h sensordataprocessor.cpp
+        README.md
 
 
     )
