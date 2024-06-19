@@ -7,7 +7,7 @@
 class WKVFactory
 {
 public:
-    static std::unique_ptr<WKV> createSensor(const std::string &type);
+    static std::unique_ptr<WKV> createSensor(const std::string &type, const std::string &name);
 };
 
 #endif // WKVFACTORY_H

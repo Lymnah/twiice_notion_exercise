@@ -1,0 +1,16 @@
+#include <vector>
+
+// Helper function to filter data within the time window
+std::vector<double> filterDataInTimeWindow(const std::vector<double> &timestamps,
+                                           const std::vector<double> &data,
+                                           double startTime,
+                                           double endTime)
+{
+    std::vector<double> filteredData;
+    for (size_t i = 0; i < timestamps.size(); ++i) {
+        if (timestamps[i] >= startTime && timestamps[i] <= endTime) {
+            filteredData.push_back(data[i]);
+        }
+    }
+    return filteredData;
+}

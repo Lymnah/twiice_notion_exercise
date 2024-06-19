@@ -11,6 +11,7 @@ void HipSensor::generateData(int frequency,
                              int duration_seconds,
                              std::optional<IWKV *> other_sensor_ptr)
 {
+    this->frequency_ = frequency;
     std::default_random_engine generator(
         static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count()));
     std::normal_distribution<double> jitter_distribution(1.0, jitter);

@@ -10,6 +10,7 @@ class WKV : public IWKV
 protected:
     std::string name_;                    ///< Name of the sensor.
     std::string unit_;                    ///< Unit of measurement for the data.
+    int frequency_;                       ///< Frequency in Hertz
     std::vector<uint64_t> timestamps_us_; ///< List of timestamps in microseconds.
     std::vector<double> data_;            ///< Data values corresponding to the timestamps.
     uint64_t start_time_us_;              ///< Start time of the data series in microseconds.

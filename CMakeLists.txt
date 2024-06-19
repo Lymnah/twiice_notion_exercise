@@ -35,6 +35,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         hipsensor.h hipsensor.cpp
         Notes
         wkvfactory.h wkvfactory.cpp
+        no_commit
+        sensordataprocessor.h sensordataprocessor.cpp
 
 
     )
