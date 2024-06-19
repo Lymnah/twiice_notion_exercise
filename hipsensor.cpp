@@ -6,7 +6,10 @@ HipSensor::HipSensor(const std::string &name, const std::string &unit)
     : WKV(name, unit)
 {}
 
-void HipSensor::generateData(int frequency, double jitter, int duration_seconds)
+void HipSensor::generateData(int frequency,
+                             double jitter,
+                             int duration_seconds,
+                             std::optional<IWKV *> other_sensor_ptr)
 {
     std::default_random_engine generator(
         static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count()));

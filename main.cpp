@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     QObject::connect(imu_sensor.get(), &IWKV::sensorDataReady, &w, &MainWindow::updateUI);
 
     hip_angle_sensor->generateData(1000, 0.02, 20);
-    imu_sensor->generateData(400, 0.03, 20);
+    imu_sensor->generateData(400, 0.03, 20, hip_angle_sensor.get());
 
     // Ensure sensors were created successfully
     if (!hip_angle_sensor || !imu_sensor) {

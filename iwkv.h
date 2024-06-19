@@ -26,7 +26,11 @@ public:
      * @param jitter The percentage of jitter to apply to the timing of data generation.
      * @param duration_seconds The duration in seconds for which data should be generated.
      */
-    virtual void generateData(int frequency, double jitter, int duration_seconds) = 0;
+    virtual void generateData(int frequency,
+                              double jitter,
+                              int duration_seconds,
+                              std::optional<IWKV *> other_sensor_ptr = std::nullopt)
+        = 0;
 
     /**
      * @brief Get the name of the sensor.
