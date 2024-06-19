@@ -100,6 +100,10 @@ int main(int argc, char *argv[])
                                                velocities_imu,
                                                accelerations_imu);
 
+    // Update UI with sensor data, velocities, and accelerations
+    w.updateUIWithVelocities(*hip_angle_resampled_sensor, velocities_hip, accelerations_hip);
+    w.updateUIWithVelocities(*imu_resampled_sensor, velocities_imu, accelerations_imu);
+
     w.show();
     return a.exec();
 }

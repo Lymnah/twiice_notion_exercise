@@ -24,6 +24,9 @@ private:
 
 public slots:
     void updateUI(const IWKV &wkv);
+    void updateUIWithVelocities(const IWKV &wkv,
+                                const std::vector<double> &velocities,
+                                const std::vector<double> &accelerations);
     void updateUIWithPeaks(const IWKV &wkv,
                            const std::vector<uint64_t> &peaks,
                            const std::string &sensorId);
